@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffeebreak Plush Hospital - Night Shift Plush Toys</title>
+<meta name="description" content="Cute-creepy pink plush toys from the Coffeebreak Plush Hospital Thriller. $35 AUD each, pay by PayID.">
+<link rel="icon" href="img/cb-logo.png">
+<style>
+:root{--pink:#ff8cc6;--deep:#c2185b;--blush:#ffe3f0;--ink:#3b0f2e;--night:#2a0d24}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:linear-gradient(#fff5fa,#ffe3f0)}
+header{background:var(--night);color:#ffd6ea;padding:14px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+header img{height:56px;border-radius:12px;background:#fdf6f0;padding:4px}
+header h1{font-size:1.25rem;margin:0;flex:1;font-family:Georgia,serif;letter-spacing:.5px}
+#cartBtn{background:var(--pink);color:var(--night);border:0;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:1rem}
+.hero{position:relative;color:#fff;text-align:center;background:#000 url(img/hero.jpg) center/cover;padding:110px 20px 90px}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(42,13,36,.55),rgba(42,13,36,.75))}
+.hero>*{position:relative}
+.hero h2{font-family:Georgia,serif;font-size:clamp(1.8rem,5vw,3rem);margin:0 0 10px;color:#ffc2e0}
+.hero p{max-width:640px;margin:0 auto;font-size:1.1rem}
+main{max-width:1150px;margin:0 auto;padding:30px 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 22px rgba(194,24,91,.15);display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.card .b{padding:14px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{margin:0;color:var(--deep);font-family:Georgia,serif}
+.card p{margin:0;font-size:.95rem;line-height:1.45;flex:1}
+.price{font-weight:800;font-size:1.15rem}
+.add{background:var(--deep);color:#fff;border:0;border-radius:12px;padding:11px;font-weight:700;cursor:pointer;font-size:1rem}
+.add:hover{background:#a0104a}
+#drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:#fff;box-shadow:-6px 0 24px rgba(0,0,0,.25);transform:translateX(105%);transition:transform .25s;z-index:10;display:flex;flex-direction:column}
+#drawer.open{transform:none}
+#drawer .top{background:var(--night);color:#ffd6ea;padding:16px;display:flex;justify-content:space-between;align-items:center}
+#drawer .top button{background:none;border:0;color:#ffd6ea;font-size:1.6rem;cursor:pointer}
+#items{flex:1;overflow:auto;padding:12px 16px}
+.line{display:flex;gap:10px;align-items:center;border-bottom:1px solid #f6d3e3;padding:8px 0}
+.line img{width:52px;height:52px;border-radius:10px;object-fit:cover}
+.line .n{flex:1;font-size:.95rem}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--pink);background:var(--blush);cursor:pointer}
+.checkout{padding:14px 16px;border-top:2px solid var(--blush);background:#fff7fb}
+.checkout label{display:block;font-size:.85rem;margin-top:8px}
+.checkout input,.checkout textarea{width:100%;padding:8px;border:1px solid #f0b6d0;border-radius:8px;font:inherit}
+.payid{background:var(--blush);border:1px dashed var(--deep);border-radius:12px;padding:10px;margin:10px 0;font-weight:600}
+#placeBtn{width:100%;margin-top:10px}
+#msg{font-size:.9rem;margin-top:8px;color:var(--deep)}
+footer{background:var(--night);color:#ffd6ea;padding:28px 20px;font-size:.88rem;line-height:1.55}
+footer .in{max-width:1000px;margin:0 auto}
+footer a{color:var(--pink)}
+.links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}
+.trailer{margin:36px 0 10px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <img src="img/cb-logo.png" alt="Coffeebreak logo">
+  <h1>Coffeebreak Plush Hospital</h1>
+  <button id="cartBtn" type="button">Cart (<span id="count">0</span>)</button>
+</header>
+<section class="hero">
+  <h2>The night shift is about to get strange</h2>
+  <p>Meet the cute-creepy pink plush crew from the Coffeebreak Plush Hospital Thriller. Soft, cuddly and just a little bit spooky. $35 AUD each.</p>
+</section>
+<main>
+  <div class="grid" id="grid"></div>
+  <p class="trailer">Starring in the Coffeebreak TV Series. More Coffeebreak apps and goodies at <a href="https://coffeebreaks.itch.io">coffeebreaks.itch.io</a>.</p>
+</main>
+
+<aside id="drawer" aria-label="Cart">
+  <div class="top"><strong>Your cart</strong><button id="closeBtn" type="button" aria-label="Close cart">&times;</button></div>
+  <div id="items"></div>
+  <div class="checkout">
+    <div><strong>Total: $<span id="total">0.00</span> AUD</strong></div>
+    <div class="payid">Pay by PayID (Teachers Mutual Bank): darkokaz@gmx.com</div>
+    <label for="cname">Your name</label><input id="cname" autocomplete="name">
+    <label for="cemail">Your email</label><input id="cemail" type="email" autocomplete="email">
+    <label for="caddr">Postal address</label><textarea id="caddr" rows="2" autocomplete="street-address"></textarea>
+    <button class="add" id="placeBtn" type="button">Place order and email it</button>
+    <div id="msg"></div>
+  </div>
+</aside>
+
+<footer>
+  <div class="in">
+    <p><strong>Disclaimer.</strong> Karen O'Brien (Coffeebreak) keeps all rights to her products, designs, apps, name and logo. Buyers may resell physical items they have bought, but may not copy, reproduce or manufacture the designs. No ownership is claimed of any third-party brands named on this page. Orders are confirmed by email once your PayID payment arrives.</p>
+    <div class="links">
+      <a href="https://coffeebreaks.itch.io">coffeebreaks.itch.io</a>
+      <a href="https://www.tesla.com">Tesla</a>
+      <a href="https://www.starlink.com">Starlink</a>
+    </div>
+    <p>&copy; Coffeebreak. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SHOP_EMAIL='darkokaz@gmx.com', PRICE=35;
+  var toys=[
+    {id:'rosie',name:'Nurse Rosie',img:'img/01-nurse-rosie.jpg',story:'A sleepy pink lamb who does her rounds with her eyes shut. Nobody knows how she always finds the right bed, but she has never once missed a goodnight.'},
+    {id:'mocha',name:'Dr Mocha Bear',img:'img/02-dr-mocha-bear.jpg',story:'The calmest doctor on the ward. He listens to every heartbeat with his pink stethoscope and swears he can hear the hospital walls whispering after midnight.'},
+    {id:'whisper',name:'Whisper the Ghost Patient Bunny',img:'img/03-whisper-ghost-bunny.jpg',story:'She floats through Ward 13 in her heart-print gown and waves from the windows. Is she a patient, a guest, or something else. Only the plush crew know.'},
+    {id:'mallow',name:'Midnight Mallow the Night-Shift Kitty',img:'img/04-midnight-mallow-kitty.jpg',story:'Running on coffee and courage, Mallow keeps her head torch on and her ears up. Every creak in the corridor is hers to investigate.'},
+    {id:'stitches',name:'Stitches the Patchwork Teddy',img:'img/05-stitches-teddy.jpg',story:'Sewn back together from the softest pink scraps, Stitches looks spooky in a curtain shadow but gives the best hugs in the hospital.'},
+    {id:'drip',name:'Drip the IV Duck',img:'img/06-drip-iv-duck.jpg',story:'That squeaky wheel you hear at 3am is Drip, rolling his stand of strawberry milk down the hall. He is always up to something, usually a surprise.'},
+    {id:'owl',name:'Ward Watch Owl',img:'img/07-ward-watch-owl.jpg',story:'The night guard with the pink lantern. He sees everything on the ward, and he is the only one who has seen where Whisper goes at sunrise.'}
+  ];
+  var cart={};
+  try{cart=JSON.parse(localStorage.getItem('cbPlushHospitalCart')||'{}')||{};}catch(e){cart={};}
+  var $=function(id){return document.getElementById(id);};
+  var grid=$('grid');
+  toys.forEach(function(t){
+    var c=document.createElement('div');c.className='card';
+    c.innerHTML='<img loading="lazy" alt=""><div class="b"><h3></h3><p></p><div class="price">$'+PRICE+'.00 AUD</div><button class="add" type="button">Add to cart</button></div>';
+    c.querySelector('img').src=t.img;c.querySelector('img').alt=t.name+' plush toy';
+    c.querySelector('h3').textContent=t.name;c.querySelector('p').textContent=t.story;
+    c.querySelector('button').addEventListener('click',function(){cart[t.id]=(cart[t.id]||0)+1;save();render();open();});
+    grid.appendChild(c);
+  });
+  function save(){try{localStorage.setItem('cbPlushHospitalCart',JSON.stringify(cart));}catch(e){}}
+  function find(id){for(var i=0;i<toys.length;i++)if(toys[i].id===id)return toys[i];}
+  function total(){var s=0,n=0;Object.keys(cart).forEach(function(k){s+=cart[k]*PRICE;n+=cart[k];});return {s:s,n:n};}
+  function render(){
+    var box=$('items');box.innerHTML='';
+    var keys=Object.keys(cart).filter(function(k){return cart[k]>0&&find(k);});
+    if(!keys.length){box.innerHTML='<p>Your cart is empty.</p>';}
+    keys.forEach(function(k){
+      var t=find(k),row=document.createElement('div');row.className='line';
+      row.innerHTML='<img alt=""><div class="n"></div><div class="qty"><button type="button" data-d="-1">-</button> <span></span> <button type="button" data-d="1">+</button></div>';
+      row.querySelector('img').src=t.img;row.querySelector('.n').textContent=t.name+' - $'+PRICE+'.00';
+      row.querySelector('span').textContent=cart[k];
+      row.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){cart[k]+=parseInt(b.getAttribute('data-d'),10);if(cart[k]<=0)delete cart[k];save();render();});});
+      box.appendChild(row);
+    });
+    var tt=total();$('count').textContent=tt.n;$('total').textContent=tt.s.toFixed(2);
+  }
+  function open(){$('drawer').classList.add('open');}
+  $('cartBtn').addEventListener('click',open);
+  $('closeBtn').addEventListener('click',function(){$('drawer').classList.remove('open');});
+  $('placeBtn').addEventListener('click',function(){
+    var tt=total(),msg=$('msg');
+    if(!tt.n){msg.textContent='Add a plush toy to your cart first.';return;}
+    var name=$('cname').value.trim(),email=$('cemail').value.trim(),addr=$('caddr').value.trim();
+    if(!name||!email||!addr){msg.textContent='Please fill in your name, email and postal address.';return;}
+    var lines=Object.keys(cart).map(function(k){return cart[k]+' x '+find(k).name+' ($'+(cart[k]*PRICE).toFixed(2)+')';});
+    var body='New Coffeebreak Plush Hospital order\n\n'+lines.join('\n')+'\n\nTotal: $'+tt.s.toFixed(2)+' AUD\nPayment: PayID (Teachers Mutual Bank) to '+SHOP_EMAIL+'\n\nName: '+name+'\nEmail: '+email+'\nPostal address: '+addr+'\n';
+    var href='mailto:'+SHOP_EMAIL+'?subject='+encodeURIComponent('Plush Hospital order - '+name)+'&body='+encodeURIComponent(body);
+    window.__lastOrderMail=href;
+    msg.textContent='Your email app is opening with the order. Send it, then pay $'+tt.s.toFixed(2)+' AUD by PayID to '+SHOP_EMAIL+' using your name as the reference.';
+    window.location.href=href;
+  });
+  render();
+})();
+</script>
+</body>
+</html>
