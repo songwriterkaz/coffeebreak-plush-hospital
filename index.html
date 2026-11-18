@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coffeebreak Plush Hospital - Night Shift Plush Toys</title>
-<meta name="description" content="Cute-creepy pink plush toys from the Coffeebreak Plush Hospital Thriller. $10 AUD each, pay by PayID.">
+<title>Coffeebreak Plush Hospital - Character-shaped Plush Cushions</title>
+<meta name="description" content="Character-shaped plush cushions from the Coffeebreak Plush Hospital Thriller. Printed on both sides, about 30-40 cm, size S. $35 AUD each, pay by PayID.">
 <link rel="icon" href="img/cb-logo.png">
 <style>
 :root{--pink:#ff8cc6;--deep:#c2185b;--blush:#ffe3f0;--ink:#3b0f2e;--night:#2a0d24}
@@ -44,6 +44,12 @@ main{max-width:1150px;margin:0 auto;padding:30px 18px}
 .payid{background:var(--blush);border:1px dashed var(--deep);border-radius:12px;padding:10px;margin:10px 0;font-weight:600}
 #placeBtn{width:100%;margin-top:10px}
 #msg{font-size:.9rem;margin-top:8px;color:var(--deep)}
+.postage{font-weight:700;margin:0 0 8px}
+.made{font-size:.85rem;margin:8px 0 0}
+.copies{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.copies button{background:#fff;color:var(--deep);border:1px solid var(--deep);border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer}
+.copies button:disabled{opacity:.45;cursor:default}
+#refLine{font-weight:700;margin-top:6px;min-height:1.2em}
 footer{background:var(--night);color:#ffd6ea;padding:28px 20px;font-size:.88rem;line-height:1.55}
 footer .in{max-width:1000px;margin:0 auto}
 footer a{color:var(--pink)}
@@ -59,7 +65,7 @@ footer a{color:var(--pink)}
 </header>
 <section class="hero">
   <h2>The night shift is about to get strange</h2>
-  <p>Meet the cute-creepy pink plush crew from the Coffeebreak Plush Hospital Thriller. Soft, cuddly and just a little bit spooky. $10 AUD each.</p>
+  <p>Meet the cute-creepy pink crew from the Coffeebreak Plush Hospital Thriller. Each one is a soft character-shaped plush cushion, printed on both sides, about 30-40 cm, size S. $35 AUD each. Each cushion is made to order, and delivery within Australia takes about 2-4 weeks.</p>
 </section>
 <main>
   <div class="grid" id="grid"></div>
@@ -70,11 +76,26 @@ footer a{color:var(--pink)}
   <div class="top"><strong>Your cart</strong><button id="closeBtn" type="button" aria-label="Close cart">&times;</button></div>
   <div id="items"></div>
   <div class="checkout">
-    <div><strong>Total: $<span id="total">0.00</span> AUD</strong></div>
+    <p class="postage" id="postageRate">Postage (Australia, 2-4 weeks): $22.00 AUD each</p>
+    <div>Items: $<span id="itemsTotal">0.00</span> AUD</div>
+    <div>Postage: $<span id="postageTotal">0.00</span> AUD</div>
+    <div><strong>PayID total: $<span id="total">0.00</span> AUD</strong></div>
     <div class="payid">Pay by PayID (Teachers Mutual Bank): darkokaz@gmx.com</div>
+    <div id="refLine"></div>
+    <div class="copies">
+      <button type="button" id="copyAmount">Copy amount</button>
+      <button type="button" id="copyPayid">Copy PayID</button>
+      <button type="button" id="copyRef">Copy reference</button>
+    </div>
+    <p class="made">Each cushion is made to order. Delivery within Australia takes about 2-4 weeks.</p>
     <label for="cname">Your name</label><input id="cname" autocomplete="name">
     <label for="cemail">Your email</label><input id="cemail" type="email" autocomplete="email">
-    <label for="caddr">Postal address</label><textarea id="caddr" rows="2" autocomplete="street-address"></textarea>
+    <p class="made">Full postal address</p>
+    <label for="cstreet">Street address</label><input id="cstreet" autocomplete="street-address">
+    <label for="csuburb">Suburb</label><input id="csuburb" autocomplete="address-level2">
+    <label for="cstate">State</label><input id="cstate" autocomplete="address-level1">
+    <label for="cpost">Postcode</label><input id="cpost" autocomplete="postal-code" inputmode="numeric">
+    <label for="ccountry">Country</label><input id="ccountry" autocomplete="country-name" value="Australia">
     <button class="add" id="placeBtn" type="button">Place order and email it</button>
     <div id="msg"></div>
   </div>
@@ -94,7 +115,10 @@ footer a{color:var(--pink)}
 
 <script>
 (function(){
-  var SHOP_EMAIL='darkokaz@gmx.com', PRICE=10;
+  var SHOP_EMAIL='darkokaz@gmx.com', PRICE=35, POSTAGE=22;
+  var PAY_LABEL='Pay by PayID (Teachers Mutual Bank): darkokaz@gmx.com';
+  var POSTAGE_LINE='Postage (Australia, 2-4 weeks): $'+POSTAGE.toFixed(2)+' AUD each';
+  var ALPHABET='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   var toys=[
     {id:'rosie',name:'Nurse Rosie',img:'img/01-nurse-rosie.jpg',story:'A sleepy pink lamb who does her rounds with her eyes shut. Nobody knows how she always finds the right bed, but she has never once missed a goodnight.'},
     {id:'mocha',name:'Dr Mocha Bear',img:'img/02-dr-mocha-bear.jpg',story:'The calmest doctor on the ward. He listens to every heartbeat with his pink stethoscope and swears he can hear the hospital walls whispering after midnight.'},
@@ -110,15 +134,61 @@ footer a{color:var(--pink)}
   var grid=$('grid');
   toys.forEach(function(t){
     var c=document.createElement('div');c.className='card';
-    c.innerHTML='<img loading="lazy" alt=""><div class="b"><h3></h3><p></p><div class="price">$'+PRICE+'.00 AUD</div><button class="add" type="button">Add to cart</button></div>';
-    c.querySelector('img').src=t.img;c.querySelector('img').alt=t.name+' plush toy';
-    c.querySelector('h3').textContent=t.name;c.querySelector('p').textContent=t.story;
+    c.innerHTML='<img loading="lazy" alt=""><div class="b"><h3></h3><p></p><div class="price">$'+PRICE.toFixed(2)+' AUD</div><button class="add" type="button">Add to cart</button></div>';
+    c.querySelector('img').src=t.img;c.querySelector('img').alt=t.name+' character-shaped plush cushion';
+    c.querySelector('h3').textContent=t.name;
+    c.querySelector('p').textContent=t.story+' Soft character-shaped plush cushion, printed on both sides, about 30-40 cm, size S.';
     c.querySelector('button').addEventListener('click',function(){cart[t.id]=(cart[t.id]||0)+1;save();render();open();});
     grid.appendChild(c);
   });
   function save(){try{localStorage.setItem('cbPlushHospitalCart',JSON.stringify(cart));}catch(e){}}
   function find(id){for(var i=0;i<toys.length;i++)if(toys[i].id===id)return toys[i];}
-  function total(){var s=0,n=0;Object.keys(cart).forEach(function(k){s+=cart[k]*PRICE;n+=cart[k];});return {s:s,n:n};}
+  function total(){
+    var s=0,n=0;
+    Object.keys(cart).forEach(function(k){if(cart[k]>0&&find(k)){s+=cart[k]*PRICE;n+=cart[k];}});
+    var post=n*POSTAGE;
+    return {s:s,n:n,post:post,pay:s+post};
+  }
+  function snapshot(){
+    return Object.keys(cart).filter(function(k){return cart[k]>0&&find(k);}).sort().map(function(k){return k+':'+cart[k];}).join('|');
+  }
+  var refState={key:'',ref:''};
+  try{var savedRef=JSON.parse(localStorage.getItem('cbPlushHospitalRef')||'{}');if(savedRef&&typeof savedRef.key==='string'&&typeof savedRef.ref==='string')refState=savedRef;}catch(e){}
+  function mintRef(){
+    var out='CB',buf;
+    if(window.crypto&&window.crypto.getRandomValues){
+      buf=new Uint32Array(14);window.crypto.getRandomValues(buf);
+      for(var i=0;i<14;i++) out+=ALPHABET.charAt(buf[i]%ALPHABET.length);
+      return out;
+    }
+    for(var j=0;j<14;j++) out+=ALPHABET.charAt(Math.floor(Math.random()*ALPHABET.length));
+    return out;
+  }
+  function reference(){
+    var key=snapshot();
+    if(!key) return '';
+    if(refState.key!==key||!refState.ref){
+      refState={key:key,ref:mintRef()};
+      try{localStorage.setItem('cbPlushHospitalRef',JSON.stringify(refState));}catch(e){}
+    }
+    return refState.ref;
+  }
+  function copyText(value,btn){
+    if(!value) return;
+    var previous=btn.textContent;
+    function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent=previous;},1200);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(value).then(done).catch(function(){fallback();});
+      return;
+    }
+    fallback();
+    function fallback(){
+      var ta=document.createElement('textarea');
+      ta.value=value;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(e){}
+      ta.remove();
+    }
+  }
   function render(){
     var box=$('items');box.innerHTML='';
     var keys=Object.keys(cart).filter(function(k){return cart[k]>0&&find(k);});
@@ -126,30 +196,44 @@ footer a{color:var(--pink)}
     keys.forEach(function(k){
       var t=find(k),row=document.createElement('div');row.className='line';
       row.innerHTML='<img alt=""><div class="n"></div><div class="qty"><button type="button" data-d="-1">-</button> <span></span> <button type="button" data-d="1">+</button></div>';
-      row.querySelector('img').src=t.img;row.querySelector('.n').textContent=t.name+' - $'+PRICE+'.00';
+      row.querySelector('img').src=t.img;row.querySelector('.n').textContent=t.name+' - $'+PRICE.toFixed(2)+' AUD';
       row.querySelector('span').textContent=cart[k];
       row.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){cart[k]+=parseInt(b.getAttribute('data-d'),10);if(cart[k]<=0)delete cart[k];save();render();});});
       box.appendChild(row);
     });
-    var tt=total();$('count').textContent=tt.n;$('total').textContent=tt.s.toFixed(2);
+    var tt=total(),ref=reference();
+    $('count').textContent=tt.n;
+    $('itemsTotal').textContent=tt.s.toFixed(2);
+    $('postageTotal').textContent=tt.post.toFixed(2);
+    $('total').textContent=tt.pay.toFixed(2);
+    $('postageRate').textContent=POSTAGE_LINE;
+    $('refLine').textContent=ref?('Reference: '+ref):'';
+    $('copyAmount').disabled=!tt.n;
+    $('copyRef').disabled=!ref;
+    $('copyAmount').onclick=function(){copyText(tt.pay.toFixed(2),$('copyAmount'));};
+    $('copyPayid').onclick=function(){copyText(SHOP_EMAIL,$('copyPayid'));};
+    $('copyRef').onclick=function(){copyText(ref,$('copyRef'));};
   }
   function open(){$('drawer').classList.add('open');}
   $('cartBtn').addEventListener('click',open);
   $('closeBtn').addEventListener('click',function(){$('drawer').classList.remove('open');});
   $('placeBtn').addEventListener('click',function(){
     var tt=total(),msg=$('msg');
-    if(!tt.n){msg.textContent='Add a plush toy to your cart first.';return;}
-    var name=$('cname').value.trim(),email=$('cemail').value.trim(),addr=$('caddr').value.trim();
-    if(!name||!email||!addr){msg.textContent='Please fill in your name, email and postal address.';return;}
-    var lines=Object.keys(cart).map(function(k){return cart[k]+' x '+find(k).name+' ($'+(cart[k]*PRICE).toFixed(2)+')';});
-    var body='New Coffeebreak Plush Hospital order\n\n'+lines.join('\n')+'\n\nTotal: $'+tt.s.toFixed(2)+' AUD\nPayment: PayID (Teachers Mutual Bank) to '+SHOP_EMAIL+'\n\nName: '+name+'\nEmail: '+email+'\nPostal address: '+addr+'\n';
-    var href='mailto:'+SHOP_EMAIL+'?subject='+encodeURIComponent('Plush Hospital order - '+name)+'&body='+encodeURIComponent(body);
+    if(!tt.n){msg.textContent='Add a cushion to your cart first.';return;}
+    var name=$('cname').value.trim(),email=$('cemail').value.trim();
+    var street=$('cstreet').value.trim(),suburb=$('csuburb').value.trim(),state=$('cstate').value.trim(),postcode=$('cpost').value.trim(),country=$('ccountry').value.trim();
+    if(!name||!email||!street||!suburb||!state||!postcode||!country){msg.textContent='Please fill in your name, email and full postal address.';return;}
+    var ref=reference();
+    var lines=Object.keys(cart).filter(function(k){return cart[k]>0&&find(k);}).map(function(k){return cart[k]+' x '+find(k).name+' character-shaped plush cushion ($'+(cart[k]*PRICE).toFixed(2)+' AUD)';});
+    var addr=[street,suburb,state,postcode,country].join(', ');
+    var body='New Coffeebreak Plush Hospital order\n\n'+lines.join('\n')+'\n\n'+POSTAGE_LINE+'\nPostage: '+tt.n+' x $'+POSTAGE.toFixed(2)+' AUD = $'+tt.post.toFixed(2)+' AUD\nItems: $'+tt.s.toFixed(2)+' AUD\nPayID total: $'+tt.pay.toFixed(2)+' AUD\nPayment: '+PAY_LABEL+'\nReference: '+ref+'\n\nName: '+name+'\nEmail: '+email+'\nFull postal address: '+addr+'\n\nEach cushion is made to order. Delivery within Australia takes about 2-4 weeks.\n';
+    var href='mailto:'+SHOP_EMAIL+'?subject='+encodeURIComponent('Plush Hospital order - '+name+' - '+ref)+'&body='+encodeURIComponent(body);
     window.__lastOrderMail=href;
-    msg.textContent='Your email app is opening with the order. Send it, then pay $'+tt.s.toFixed(2)+' AUD by PayID to '+SHOP_EMAIL+' using your name as the reference.';
+    msg.textContent='Your email app is opening with the order. Send it, then pay $'+tt.pay.toFixed(2)+' AUD by PayID to '+SHOP_EMAIL+' using reference '+ref+'.';
     window.location.href=href;
   });
   render();
 })();
 </script>
-<!--cb-game-cart-start--><section id="cb-game-cart" data-store="plush-hospital" aria-label="Cart"><script type="application/json" id="cb-game-cart-data">{"storeId":"plush-hospital","currency":"USD","items":[{"id":"full","name":"Coffeebreak Plush Hospital","amount":"10.00","currency":"USD"}]}</script></section><script src="payid-cart/cart.js"></script><script src="payid-cart/game-cart.js"></script><script src="payid-cart/game-mount.js"></script><!--cb-game-cart-end--></body>
+</body>
 </html>
