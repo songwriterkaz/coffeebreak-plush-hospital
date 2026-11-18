@@ -53,6 +53,7 @@ main{max-width:1150px;margin:0 auto;padding:30px 18px}
 footer{background:var(--night);color:#ffd6ea;padding:28px 20px;font-size:.88rem;line-height:1.55}
 footer .in{max-width:1000px;margin:0 auto}
 footer a{color:var(--pink)}
+.delivery-banner{margin:0;background:var(--blush);color:var(--deep);text-align:center;padding:12px 18px;font-weight:700;line-height:1.45;border-bottom:3px solid var(--pink)}
 .links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}
 .trailer{margin:36px 0 10px;text-align:center}
 </style>
@@ -63,6 +64,9 @@ footer a{color:var(--pink)}
   <h1>Coffeebreak Plush Hospital</h1>
   <button id="cartBtn" type="button">Cart (<span id="count">0</span>)</button>
 </header>
+<p class="delivery-banner" id="deliveryBanner">Last order date for Christmas delivery in Australia: 4 December 2026. Cushions ship from overseas and usually take 2 to 4 weeks.</p>
+<script src="christmas-notice.js"></script>
+<script>document.getElementById('deliveryBanner').textContent=christmasDeliveryNotice(new Date());</script>
 <section class="hero">
   <h2>The night shift is about to get strange</h2>
   <p>Meet the cute-creepy pink crew from the Coffeebreak Plush Hospital Thriller. Each one is a soft character-shaped plush cushion, printed on both sides, about 30-40 cm, size S. $35 AUD each. Each cushion is made to order, and delivery within Australia takes about 2-4 weeks.</p>
@@ -87,6 +91,7 @@ footer a{color:var(--pink)}
       <button type="button" id="copyPayid">Copy PayID</button>
       <button type="button" id="copyRef">Copy reference</button>
     </div>
+    <p class="made" id="christmasNote">Last order date for Christmas delivery in Australia: 4 December 2026. Cushions ship from overseas and usually take 2 to 4 weeks.</p>
     <p class="made">Each cushion is made to order. Delivery within Australia takes about 2-4 weeks.</p>
     <label for="cname">Your name</label><input id="cname" autocomplete="name">
     <label for="cemail">Your email</label><input id="cemail" type="email" autocomplete="email">
